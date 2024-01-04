@@ -12,6 +12,7 @@ dependencies:
   json_annotation: ^4.8.1
   logging: ^1.2.0
   markdown: ^7.1.1
+  path: ^1.9.0
   quiver: ^3.2.1
   yaml: ^3.1.2
 

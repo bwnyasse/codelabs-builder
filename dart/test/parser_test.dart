@@ -4,6 +4,76 @@ import 'package:codelabs_builder/parser.dart';
 import 'package:yaml/yaml.dart'; // Adjust the import path as needed
 
 void main() {
+
+  group('Duration Parsing', () {
+  test('Parses duration correctly', () {
+    String htmlContent = '''
+<metadata>
+longTitle: "Test Codelab"
+name: "test-codelab"
+description: "A test codelab to demonstrate functionality."
+lastModified: "2023-01-01"
+image: "test_image.png"
+post: "test_post"
+googleUA: "UA-12345678-1"
+</metadata>
+
+<h1>Title</h1>
+<h2>Step</h2>
+<duration>1:30</duration>
+    ''';
+
+    final result = parse(htmlContent, 'test_output');
+    expect(result.steps.first?.minutes, equals(90));
+    // Additional assertions for duration parsing
+  });
+
+  // Additional tests if needed
+});
+
+  group('Exception Handling', () {
+    test('Throws FormatException for missing H1 tag', () {
+      String htmlContent = '<p>No H1 Tag here</p>';
+
+      expect(() => parse(htmlContent, 'test_output'), throwsFormatException);
+    });
+  });
+
+  group('Alert Type Handling', () {
+    test('Handles alert type correctly', () {
+      String htmlContent = '''
+<metadata>
+longTitle: "Test Codelab"
+name: "test-codelab"
+description: "A test codelab to demonstrate functionality."
+lastModified: "2023-01-01"
+image: "test_image.png"
+post: "test_post"
+googleUA: "UA-12345678-1"
+</metadata>
+
+<h1>Title</h1>
+<h2>Step 1: Initial Step</h2>
+<alert-success>Success Message</alert-success>
+
+<h2>Step 2: Another Step</h2>
+<alert-info>Info Message</alert-info>
+
+<h2>Step 3: Another Step</h2>
+<alert-warning>Warning Message</alert-warning>
+
+<h2>Step 4: Another Step</h2>
+<alert-danger>Danger Message</alert-danger>
+    ''';
+
+      final result = parse(htmlContent, 'test_output');
+      expect(result.steps.first?.content.text, contains('Success Message'));
+      expect(result.steps[1]?.content.text, contains('Info Message'));
+      expect(result.steps[2]?.content.text, contains('Warning Message'));
+      expect(result.steps[3]?.content.text, contains('Danger Message'));
+    });
+  });
+
   group('Utility Functions', () {
     test('toMinute correctly converts time string to minutes', () {
       expect(toMinute('1:30'), equals(90));

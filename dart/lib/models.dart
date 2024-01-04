@@ -36,7 +36,6 @@ class Metadata {
 
   factory Metadata.fromJson(Map<String, dynamic> json) =>
       _$MetadataFromJson(json);
-  Map<String, dynamic> toJson() => _$MetadataToJson(this);
 }
 
 /// Model related to
@@ -61,15 +60,6 @@ class Codelab {
     required this.steps,
     required this.minutes,
   });
-
-  @override
-  String toString() => """
-  {
-    "metadata": "$metadata",
-    "title": "$title",
-    "steps": $steps
-  }
-  """;
 }
 
 /// Model related to
@@ -95,15 +85,4 @@ class Step {
     required this.isLast,
     this.minutes = 0,
   });
-
-  @override
-  String toString() => """
-  {
-    "order": "$order",
-    "label": "$label",
-    "minutes": "$minutes",
-    "content": "${content.innerHtml}",
-    "isLast": "$isLast",
-  }
-""";
 }
